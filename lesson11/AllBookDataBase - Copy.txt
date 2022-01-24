@@ -1,0 +1,5 @@
+Lolita,Vladimir Nabokov,2015,4
+The Shining,Stephen King,2012,2
+Dune,Frank Herbert,2005,5
+Hobbit,J.R.R. Tolkien,2000,1
+Origin,Dan Brown,2017,3
