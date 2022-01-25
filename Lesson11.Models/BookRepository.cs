@@ -10,7 +10,7 @@ namespace Lesson11.Models
 {
     public class BookRepository
     {
-        FileWriterServiceStorage Writer = new FileWriterServiceStorage();
+        FileWriterServiceStorage BookWriter = new FileWriterServiceStorage();
         FileWriteReadServiceReader ReaderWriter = new FileWriteReadServiceReader();
         public List<string> ListBooks { get; set; }
 
@@ -19,7 +19,7 @@ namespace Lesson11.Models
             ListBooks = new List<string>();
         }
 
-        public void WriteBookToFile(Book book, List<Book> listBooks) //List<Book>
+        public void WriteBookToFile(Book book, List<Book> listBooks)
         {
             bool isNotList = true;
             for (int i = 0; i < listBooks.Count; i++)
@@ -34,10 +34,9 @@ namespace Lesson11.Models
             if (isNotList)
             {
                 string saveBook = $"{book.Name},{book.Author},{book.Year},{book.BookAmount}";
-                Writer.AppendText(saveBook);
+                BookWriter.AppendText(saveBook);
                 listBooks.Add(book);
             }
-           // return listBooks;
         }
 
         public void WriteAllBookToFile(List<Book> book)
@@ -47,7 +46,7 @@ namespace Lesson11.Models
             {
                 templist.Add($"{record.Name},{record.Author},{record.Year},{record.BookAmount}");
             }
-            Writer.WriteAllText(templist.ToArray());
+            BookWriter.WriteAllText(templist.ToArray());
 
         }
 
@@ -55,7 +54,7 @@ namespace Lesson11.Models
         {
             ListBooks.Clear();
             var listBooks = new List<Book>();
-            List<string> alllinesFromfile = Writer.GetAllLines();
+            List<string> alllinesFromfile = BookWriter.GetAllLines();
             for (int i = 0; i < alllinesFromfile.Count; i++)
             {
                 var book = new Book();
@@ -71,8 +70,8 @@ namespace Lesson11.Models
         }
         public void BorrowBookFromStorage(List<Book> listBooks, List<Reader> borrowedListBooks)
         {
-            int bookNo = 0;
-            string borrowerName = "";
+            int bookNo;
+            string borrowerName;
             int counter = 0;
             Console.WriteLine("Enter your Name");
             borrowerName = Console.ReadLine();
@@ -96,13 +95,9 @@ namespace Lesson11.Models
                 else
                 {
                     Reader borrower = new Reader(listBooks[bookNo].Name, listBooks[bookNo].Author, listBooks[bookNo].Year, 1, borrowerName);
-
                     borrowedListBooks.Add(borrower);
                     listBooks[bookNo].BookAmount--;
-
                 }
-
-
             }
             else
             {
@@ -117,10 +112,8 @@ namespace Lesson11.Models
             }
             ReaderWriter.WriteAllText(tempRederlist.ToArray());
         }
-        
         public void ReturnBookToStorage(List<Book> listBooks, List<Reader> borrowedListBooks)
         {
-            
             bool noSuchReader = true;
             Console.WriteLine("Enter your Name");
             string borrowerName = Console.ReadLine();
